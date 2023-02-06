@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(
         if (request.message === "displayJSON") {
             chrome.tabs.create({
                 url: chrome.runtime.getURL("./JSONViewer.html"),
-                index: ++activeTabIndex
+                index: activeTabIndex + 1
             });
         }
     }
