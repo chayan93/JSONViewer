@@ -1,9 +1,9 @@
 # JSON Viewer
-A chrome extention that formats/beautifies the selected valid JSON text and show the same in a new browser tab - helpful in viewing the JSON file in a more readable format.
+A chrome extension that formats/beautifies the selected valid JSON text and show the same in a new browser tab - helpful in viewing the JSON file in a more readable format.
 
 ## Installation
 - Download the github repository to your local computer and unzip it.
-- Check how to use unpacked chrome extention [here](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#:~:text=To%20load%20an%20unpacked%20extension,the%20bottom%20of%20the%20menu) and follow the instructions.
+- Check how to use unpacked chrome extension [here](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#:~:text=To%20load%20an%20unpacked%20extension,the%20bottom%20of%20the%20menu) and follow the instructions.
 
 ## Features
 - Generates a formatted/beautified view of the selected valid JSON text
@@ -23,5 +23,5 @@ A chrome extention that formats/beautifies the selected valid JSON text and show
 [![instagram](https://img.shields.io/badge/instagram-0A66C2?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/chayan_93/)
 
 ## Acknowledgement
-- Extention icons generated from [icons8](https://icons8.com/icons/set/curly-brackets)
+- Extension icons generated from [icons8](https://icons8.com/icons/set/curly-brackets)
 - README generated from [readme.so](https://readme.so/editor)
