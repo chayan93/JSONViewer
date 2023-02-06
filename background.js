@@ -29,7 +29,8 @@ chrome.runtime.onMessage.addListener(
                 chrome.windows.create({
                     tabId: tab.id,
                     type: 'popup',
-                    focused: true
+                    focused: true,
+                    setSelfAsOpener: true
                 });
             });
         }

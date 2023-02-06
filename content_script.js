@@ -2,38 +2,84 @@
 // asks background.js to open the JSONViewer tab(content.js can't open a new tab)
 // background.js can't get to the current document(to get user selected text).
 
+var checkCopiedInsteadOfSelected;
+var copiedText;
+var selectedText;
+
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === "clicked_browser_action") {
-            var selectedText = window.getSelection().toString();
-
-            if (selectedText) {
-                if(checkValidity(selectedText)){
-                    try {
-                        document.execCommand('copy');
-                        chrome.runtime.sendMessage({ "message": "displayJSON" });
-                    }
-                    catch (e) {
-                        console.error('Unable to copy current selection.', e);
-                        alert('Unable to copy current selection.');
-                    }
-                }
-                else{
-                    let error = 'The selected text is an invalid JSON.';
-                    error += ' It must be in the format [{"str": "foo", "int": 1}, {"bool": true, "others": null}]';
-                    alert(error);
-                }
-            }
-            else {
-                alert('Please select some text first.');
+            if(checkTexts()){
+                chrome.runtime.sendMessage({ "message": "displayJSON" });
             }
         }
     }
 );
 
-const checkValidity = (selectedText) => {
+const checkTexts = () => {
+    selectedText = window.getSelection().toString();
+    checkIfCopiedTextExists();
+
+    var selectionExistsAndValid = checkIfTextSelectionExists();
+
+    if(selectionExistsAndValid){
+        return true;
+    }
+    else if(checkCopiedInsteadOfSelected){
+        let isValid = checkValidity(copiedText);
+        if(isValid){
+            return true;
+        }
+
+        let alertMsg = "Copied text isn't a valid JSON.";
+        alertMsg += ' The correct format is [{"str": "foo", "int": 1}, {"bool": true, "others": null}]';
+        alert(alertMsg);
+    }
+
+    return false;
+}
+
+const checkIfTextSelectionExists = () => {
+    if(!selectedText){
+        if(copiedText){
+            checkCopiedInsteadOfSelected = confirm("Selected text isn't found. Do you want to check the last copied text?");
+        }
+        return false;
+    }
+    else{
+        var isValid = checkValidity(selectedText);
+
+        if(isValid){
+            document.execCommand('copy');
+            return true;
+        }
+        else{
+            if(copiedText){
+                let confirmMsg = "Selected text isn't a valid JSON.";
+                confirmMsg += ' The correct format is [{"str": "foo", "int": 1}, {"bool": true, "others": null}]';
+                confirmMsg += '\n\nDo you want to check the last copied text?'
+
+                checkCopiedInsteadOfSelected = confirm(confirmMsg);
+            }
+
+            return false;
+        }
+    }
+}
+
+const checkIfCopiedTextExists = () => {
+    var inputElem = document.createElement("input");
+    document.body.appendChild(inputElem);
+    inputElem.focus();
+    document.execCommand("paste");
+    let val = inputElem.value;
+    document.body.removeChild(inputElem);
+    copiedText = val;
+}
+
+const checkValidity = (textToCheck) => {
     try{
-        JSON.stringify(JSON.parse(selectedText));
+        JSON.stringify(JSON.parse(textToCheck));
         return true;
     }
     catch(error){

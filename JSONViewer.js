@@ -7,7 +7,20 @@ window.onload = function () {
         var clipboardText = inputElem.value;
         document.body.removeChild(inputElem);
 
-        setData(JSON.stringify(JSON.parse(clipboardText), null, 4));
+        let beautifiedJSON;
+
+        try{
+            beautifiedJSON = JSON.stringify(JSON.parse(clipboardText), null, 4)
+        }
+        catch(err){
+            console.error(err);
+            let error = 'The last copied text is an invalid JSON.';
+            error += ' The correct format is [{"str": "foo", "int": 1}, {"bool": true, "others": null}]';
+            alert(error);
+            window.close();
+        }
+
+        setData(beautifiedJSON);
     }
     catch (ex) {
         alert('Unable to complete the request at this moment. Please try again later.');

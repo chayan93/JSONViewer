@@ -1,12 +1,13 @@
 # JSON Viewer
-A chrome extension that formats/beautifies the selected valid JSON text and show the same in a new browser tab - helpful in viewing the JSON file in a more readable format.
+A chrome extension that formats/beautifies the selected valid JSON text and show the same in a new browser popup window tab - helpful in viewing the JSON file in a more readable format.
 
 ## Installation
 - Download the github repository to your local computer and unzip it.
 - Check how to use unpacked chrome extension [here](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#:~:text=To%20load%20an%20unpacked%20extension,the%20bottom%20of%20the%20menu) and follow the instructions.
 
 ## Features
-- Generates a formatted/beautified view of the selected valid JSON text
+- Generates a formatted/beautified view of the selected valid JSON text.
+- At first, find and read the text that is selected in the current browser tab. If no selection is found or the selected text is an invalid JSON, user gets to choose whether they want to view the last copied text.
 - Users can set their preferred colors for the below attributes by selecting the options page:
     - Background Color
     - Text Color
