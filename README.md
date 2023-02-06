@@ -1,5 +1,5 @@
 # JSON Viewer
-A chrome extention that formats/beautifies the selected valid JSON text and show the same in a new browser tab - helpful in viewing the file details in the desired way.
+A chrome extention that formats/beautifies the selected valid JSON text and show the same in a new browser tab - helpful in viewing the JSON file in a more readable format.
 
 ## Installation
 - Download the github repository to your local computer and unzip it.
