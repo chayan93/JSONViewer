@@ -1,7 +1,7 @@
 function restore_options() {
     chrome.storage.sync.get({
         bgCol: '#000000', col: '#008000', selBgCol: '#2f4f4f', selCol: '#deb887'
-    }, function(items) {
+    }, function (items) {
         document.getElementById('bgCol').value = items.bgCol;
         document.getElementById('col').value = items.col;
         document.getElementById('selBgCol').value = items.selBgCol;
@@ -15,21 +15,21 @@ function save_options() {
     var selBgCol = document.getElementById('selBgCol').value;
     var selCol = document.getElementById('selCol').value;
 
-    try{
+    try {
         chrome.storage.sync.set({
             bgCol: bgCol, col: col, selBgCol: selBgCol, selCol: selCol
-        }, function() {
+        }, function () {
             // Update status to let user know options were saved.
             var status = document.getElementById('status');
             status.style.color = 'green';
             status.innerHTML = 'Saved..!!';
 
-            setTimeout(function() {
+            setTimeout(function () {
                 status.innerHTML = '';
             }, 1500);
         });
     }
-    catch(error){
+    catch (error) {
         console.error(error);
         var status = document.getElementById('status');
         status.style.color = 'red';

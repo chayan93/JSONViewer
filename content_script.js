@@ -5,29 +5,32 @@
 var checkCopiedInsteadOfSelected;
 var copiedText;
 var selectedText;
+var dataToDisplay;
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === "clicked_browser_action") {
-            if(checkTexts()){
-                chrome.runtime.sendMessage({ "message": "displayJSON" });
+            if (checkTexts()) {
+                chrome.runtime.sendMessage({
+                    "message": "displayJSON", "data": dataToDisplay
+                });
             }
         }
     }
 );
 
 const checkTexts = () => {
-    selectedText = window.getSelection().toString();
+    selectedText = (window.getSelection().toString() || '').trim();
     checkIfCopiedTextExists();
 
     var selectionExistsAndValid = checkIfTextSelectionExists();
 
-    if(selectionExistsAndValid){
+    if (selectionExistsAndValid) {
         return true;
     }
-    else if(checkCopiedInsteadOfSelected){
+    else if (checkCopiedInsteadOfSelected) {
         let isValid = checkValidity(copiedText);
-        if(isValid){
+        if (isValid) {
             return true;
         }
 
@@ -40,21 +43,20 @@ const checkTexts = () => {
 }
 
 const checkIfTextSelectionExists = () => {
-    if(!selectedText){
-        if(copiedText){
+    if (!selectedText) {
+        if (copiedText) {
             checkCopiedInsteadOfSelected = confirm("Selected text isn't found. Do you want to check the last copied text?");
         }
         return false;
     }
-    else{
+    else {
         var isValid = checkValidity(selectedText);
 
-        if(isValid){
-            document.execCommand('copy');
+        if (isValid) {
             return true;
         }
-        else{
-            if(copiedText){
+        else {
+            if (copiedText) {
                 let confirmMsg = "Selected text isn't a valid JSON.";
                 confirmMsg += ' The correct format is [{"str": "foo", "int": 1}, {"bool": true, "others": null}]';
                 confirmMsg += '\n\nDo you want to check the last copied text?'
@@ -74,15 +76,15 @@ const checkIfCopiedTextExists = () => {
     document.execCommand("paste");
     let val = inputElem.value;
     document.body.removeChild(inputElem);
-    copiedText = val;
+    copiedText = (val || '').trim();
 }
 
-const checkValidity = (textToCheck) => {
-    try{
-        JSON.stringify(JSON.parse(textToCheck));
+const checkValidity = (dataToCheck) => {
+    try {
+        dataToDisplay = JSON.stringify(JSON.parse(dataToCheck), null, 4);
         return true;
     }
-    catch(error){
+    catch (error) {
         return false;
     }
 }
