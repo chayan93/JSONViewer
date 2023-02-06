@@ -1,0 +1,36 @@
+{
+    "name": "JSON Viewer",
+    "version": "0.1",
+    "manifest_version": 3,
+    "description": "Beutifies the last currently selected text if its a valid JSON.",
+    "permissions": [
+        "contextMenus", "tabs", "clipboardRead", "clipboardWrite",
+        "activeTab",  "scripting",  "storage"
+    ],
+    "icons": {
+        "16": "./icons/JSONViewer-16.png",
+        "48": "./icons/JSONViewer-48.png",
+        "128": "./icons/JSONViewer-100.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*", "https://*/*", "file://*/*"
+            ],
+            "js": [
+                "content_script.js"
+            ]
+        }
+    ],
+    "action": {
+        "default_icon": "./icons/JSONViewer-100.png"
+    },
+    "options_page": "JSONViewerOptions.html",
+    "options_ui": {
+        "page": "JSONViewerOptions.html",
+        "open_in_tab": false
+    }
+}
